@@ -10,7 +10,7 @@ export default {
   plugins: [require("daisyui")],
    // daisyUI config (optional - here are the default values)
    daisyui: {
-    themes: ['dim']
+    themes: ['retro']
      },
 }
 
