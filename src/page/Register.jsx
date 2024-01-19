@@ -1,6 +1,7 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import useAuth from "../hooks/useAuth"
+import toast from "react-hot-toast"
 
 const Register = () => {
   const { createUser, user } = useAuth()
@@ -8,17 +9,20 @@ const Register = () => {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   console.log(user);
-
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    const toastId = toast.loading('Register in Process')
     try {
-      await createUser( email, password)
+      await createUser(email, password)
+      toast.success('Registered In Successfully....', { id: toastId });
+      toast.success('You have LogIn Successfully....', { id: toastId });
       console.log('Created');
-
+      navigate('/')
     } catch (error) {
       console.log(error);
-
+      toast.error(error.message, { id: toastId });
     }
 
     console.log(email);
