@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import useAuth from "../hooks/useAuth"
 import toast from "react-hot-toast"
+import useAxios from "../hooks/useAxios"
 
 const Login = () => {
   const { login, user } = useAuth()
@@ -9,13 +10,17 @@ const Login = () => {
   const [password, setPassword] = useState()
   console.log(user);
   const navigate = useNavigate();
+  const axios = useAxios()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     const toastId = toast.loading('Logging In')
     try {
-      await login(email, password)
+      const user = await login(email, password)
+      const res = await axios.post('/auth/access-token', { email: user.user.email })
+      console.log(res);
+     
       toast.success('Logged In Successfully....', { id: toastId });
       console.log('Logged In Successfully');
       navigate('/')
